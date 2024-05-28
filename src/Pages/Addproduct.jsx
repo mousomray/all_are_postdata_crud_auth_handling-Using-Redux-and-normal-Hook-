@@ -64,10 +64,14 @@ const Addproduct = () => {
 
 
             try {
-                await dispatch(addproduct(formData));
-                setAdd(initialValue);
-                setImage('');
-                navigate('/showproduct')
+                const response = await dispatch(addproduct(formData));
+                if (response && response?.payload?.status === 200) {
+                    setAdd(initialValue);
+                    setImage('');
+                    navigate('/showproduct')
+                }else{
+                    navigate('/')
+                }
             } catch (error) {
                 console.log(error);
             }

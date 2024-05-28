@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
 import { ToastContainer } from 'react-toastify';
@@ -47,7 +46,7 @@ const App = () => {
     },
     {
       path: '/dashboard',
-      component: <Dashboard/>
+      component: <Dashboard />
     }
   ]
 

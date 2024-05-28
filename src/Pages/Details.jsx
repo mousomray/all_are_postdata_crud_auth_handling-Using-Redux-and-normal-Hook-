@@ -68,7 +68,7 @@ const Details = () => {
     if (loading) {
         return (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
-                <h1>Loader...</h1>
+                <h1>Loading...</h1>
             </div>
         );
     }
@@ -89,7 +89,7 @@ const Details = () => {
                                         <CardMedia
                                             component="img"
                                             height="400"
-                                            image={`https://wtsacademy.dedicateddevelopers.us/uploads/product/${id}`}
+                                            image={`https://wtsacademy.dedicateddevelopers.us/uploads/product/${singledata?.image}`}
                                             alt="Paella dish"
                                         />
                                         <CardContent>
@@ -97,15 +97,8 @@ const Details = () => {
                                                 <h1>{singledata?.title}</h1>
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
-                                                <h1>{singledata?.description}</h1>
+                                                <p>{singledata?.description}</p>
                                             </Typography>
-                                        </CardContent>
-
-                                        <CardContent>
-                                            <Typography paragraph>
-                                                {singledata?.service_description}
-                                            </Typography>
-
                                         </CardContent>
 
                                     </Card>

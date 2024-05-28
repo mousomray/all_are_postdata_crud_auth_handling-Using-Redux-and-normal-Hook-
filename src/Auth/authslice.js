@@ -34,7 +34,7 @@ export const loginRequest = createAsyncThunk("login", async (user) => {
         const apiurl = "user/signin"
         const response = await axiosInstance.post(apiurl, user);
         if (response && response?.data?.status === 200) {
-             toast.success(response?.data?.message)
+            toast.success(response?.data?.message)
         } else {
             toast.error(response?.data?.message)
         }
@@ -64,6 +64,7 @@ export const AuthSlice = createSlice({
         logout: (state, { payload }) => {
             localStorage.removeItem("token");
             localStorage.removeItem("name");
+            localStorage.removeItem("proimg");
             toast.success("Logout successfully")
             state.Logouttoggle = false
 
@@ -104,9 +105,9 @@ export const AuthSlice = createSlice({
             //For Registration Fulfilled
             .addCase(registerUser.fulfilled, (state, { payload }) => {
                 state.loading = false;
-                
+
                 console.log("My Reg payload", payload);
-                
+
                 if (payload && payload.status === 200) { // Check if payload exists
                     localStorage.setItem("name", payload.data.first_name);
                     state.redirectReg = "/login";
@@ -131,6 +132,9 @@ export const AuthSlice = createSlice({
                 if (payload?.status === 200) {
                     localStorage.setItem("token", payload?.token);
                     localStorage.setItem("name", payload?.data.first_name);
+                    // localStorage.setItem("last_name", payload?.data.last_name);
+                    // localStorage.setItem("email", payload?.data.email);
+                    localStorage.setItem("proimg", payload?.data?.profile_pic)
                     state.Logouttoggle = true;
                     state.redirectTo = "/";
                     toast.success(`Hi ${payload?.data.first_name}, ${payload?.message}`);

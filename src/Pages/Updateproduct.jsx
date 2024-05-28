@@ -22,6 +22,7 @@ const Updateproduct = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { singledata } = useSelector((state) => state.Details);
     const [add, setAdd] = useState(initialValue);
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
@@ -89,9 +90,14 @@ const Updateproduct = () => {
             formData.append('image', image);
 
             try {
-                await dispatch(updateproduct(formData));
-                navigate('/showproduct')
-                setLoading(false);
+                const response = await dispatch(updateproduct(formData));
+                console.log("My Edit Response is ", response);
+                if (response && response?.payload?.status === 200) {
+                    navigate('/showproduct')
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                }
             } catch (error) {
                 console.log(error);
                 setLoading(false);
@@ -146,19 +152,46 @@ const Updateproduct = () => {
                             <div style={{ marginBottom: '20px' }}>
                                 <input type="file" onChange={(e) => setImage(e.target.files[0])} name="image" accept="image/*" className="form-control" />
 
-                                {image !== "" && image !== undefined && image !== null ? (
-                                    <img style={{ height: "180px" }} src={URL.createObjectURL(image)} alt="" className="upload-img" />
+                                {/*Image Area Start*/}
+                                {image !== "" &&
+                                    image !== undefined &&
+                                    image !== null ? (
+                                    <img
+                                        height="180px"
+                                        src={URL.createObjectURL(image)}
+                                        alt=""
+                                        className="upload-img"
+                                    />
                                 ) : (
-                                    <>{image === "" && <p style={{ color: 'white' }}>Drag or drop content here</p>}</>
+                                    <>
+                                        {image === "" ? (
+                                            <img
+                                                height="180px"
+                                                src={image}
+                                                alt=""
+                                                className="upload-img"
+                                            />
+                                        ) : (
+                                            <img
+                                                height="180px"
+                                                src={`https://wtsacademy.dedicateddevelopers.us/uploads/product/${singledata?.image}`}
+                                                alt=""
+                                                className="upload-img"
+                                            />
+                                        )}
+                                    </>
                                 )}
+
                             </div>
                             {/*Image area end*/}
+                            
 
                             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 {/* {loading ? <Loader2 /> : 'Register'} */}
                                 {loading ? 'Loading...' : 'Update'}
 
                             </Button>
+
                         </Box>
                     </Paper>
                 </Container>

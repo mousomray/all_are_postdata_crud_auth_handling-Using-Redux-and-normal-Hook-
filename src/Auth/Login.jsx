@@ -28,6 +28,14 @@ const Login = () => {
     const { redirectTo, loading } = useSelector((state) => state?.Auth);
     const [error, setError] = useState({});
 
+    // Make Password visibility 
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    const togglePassword = (e) => {
+        e.preventDefault()
+        setPasswordShown(!passwordShown);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
@@ -42,8 +50,6 @@ const Login = () => {
         if (Object.keys(ErrorList).length === 0) {
             try {
                 const response = await dispatch(loginRequest(user));
-
-                console.log("My Login pod is ...." , response);
 
                 if (response && response?.payload?.status === 200) {
                     setUser(initialValue);
@@ -131,7 +137,7 @@ const Login = () => {
                             fullWidth
                             name="password"
                             label="Password"
-                            type="password"
+                            type={passwordShown ? "text" : "password"}
                             id="password"
                             autoComplete="current-password"
                             value={user.password}
@@ -139,6 +145,8 @@ const Login = () => {
                             error={!!error.password}
                             helperText={error.password}
                         />
+                        <br />
+                        <Link onClick={togglePassword}>{passwordShown ? 'Hide Password' : 'Show Password'}</Link>
                         <Button
                             type="submit"
                             fullWidth

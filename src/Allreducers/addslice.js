@@ -9,8 +9,13 @@ export const addproduct = createAsyncThunk("addproduct", async (data, { rejectWi
     try {
         const apiurl = "product/create"
         const response = await axiosInstance.post(apiurl, data);
-        console.log("Fetching Add user data", response);
-        toast.success(response?.data?.message)
+        if (response && response?.data?.status === 200) {
+            console.log("Fetching Add user data", response);
+            toast.success(response?.data?.message)
+        } else {
+            console.log("Error Fetching Add User Data", response);
+            toast.error(response?.data?.message)
+        }
         return response.data;
     } catch (error) {
         console.log("Error Fetching Add User data", error);

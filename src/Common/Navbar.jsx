@@ -22,10 +22,18 @@ import { logout } from '../Auth/authslice';
 const pages = ['Addproduct', 'Showproduct'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+
+// Function For Profile Picture
+export const profile_pic = (kkr) => {
+    return `https://wtsacademy.dedicateddevelopers.us` + `/uploads/user/profile_pic/${kkr}`;
+}
+
+
 function ResponsiveAppBar() {
     const dispatch = useDispatch();
     const { Logouttoggle } = useSelector((state) => state?.Auth);
     const name = localStorage.getItem("name");
+    const proimg = localStorage.getItem("proimg") // Get Profile picture from local storage
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -150,7 +158,11 @@ function ResponsiveAppBar() {
                                 <>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                            <Avatar alt="Remy Sharp" src={
+                                                proimg
+                                                    ? profile_pic(proimg)
+                                                    : "error"
+                                            } />
                                         </IconButton>
                                     </Tooltip>
                                     <Menu

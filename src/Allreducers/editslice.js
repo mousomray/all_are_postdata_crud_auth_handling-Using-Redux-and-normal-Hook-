@@ -6,8 +6,12 @@ export const updateproduct = createAsyncThunk("updateproduct", async (id, { reje
     try {
         const apiurl = `product/update`
         const response = await axiosInstance.post(apiurl, id);
-        console.log("Fetching update data", response);
-        toast.success(response?.data?.message)
+        if (response && response?.data?.status === 200) {
+            console.log("Fetching update data", response);
+            toast.success(response?.data?.message)
+        } else {
+            toast.error(response?.data?.message);
+        }
         return response.data;
     } catch (error) {
         console.log("Error Fetching update data", error);
