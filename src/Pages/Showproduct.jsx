@@ -15,7 +15,7 @@ import { deleteproduct } from '../Allreducers/deleteslice'
 import { Button } from '@mui/material';
 import Layout from '../Common/Layout';
 import Swal from 'sweetalert2'; // Import Sweet Alert 
-import { Pagination } from "@mui/material"; // Import Pagination
+import Pagination from '@mui/material/Pagination'; // Import Pagination
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,17 +28,19 @@ const Item = styled(Paper)(({ theme }) => ({
 const Showproduct = () => {
     const dispatch = useDispatch();
     const { showdata, totalpage, loading } = useSelector((state) => state.Show);
-    const [totalRecords, setPage] = useState() // Hook For Pagination
+    const [currentPage, setCurrentPage] = useState(1); // State For Pagination
+
 
     // Handle Make For Pagination 
-    const handleChange = (e, pageno) => { // e is not using but keep as a parameter
-        setPage(pageno);
+    const handleOnChange = (e, pageno) => {
+        setCurrentPage(pageno);
         dispatch(show({ page: pageno, perpage: 10 }));
     };
 
     useEffect(() => {
         dispatch(show());
     }, []);
+
 
 
     // Make Handle For Delete (Start)
@@ -134,9 +136,17 @@ const Showproduct = () => {
                         <Box display="flex" justifyContent="center" alignItems="center" height="100px">
                             <Grid justifyContent="center">
                                 {showdata.length !== 0 ? (
-                                    <Pagination count={totalpage} onChange={handleChange} totalRecords={totalRecords} />
+                                    <Pagination
+                                        count={totalpage}
+                                        page={currentPage}
+                                        onChange={handleOnChange}
+                                        variant="outlined"
+                                        shape="rounded"
+                                    />
+
                                 ) : (
-                                    <></>
+                                    <>
+                                    </>
                                 )}
                             </Grid>
                         </Box>
